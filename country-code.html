@@ -31,17 +31,28 @@
             padding: 3px;
             margin-right: 10px;
             border-radius: 10px;
+            border-color: black;
+            
         }
+
         #submit {
             
-            background-color: blueviolet;
+            background-color: whitesmoke;
+            color: black;
+            border-color: black;
             border-radius: 10%;
             margin-top: 10px;
             font-size: 10px;
         }
+
+        #submit:active {
+            color: white;
+            border-color: white;
+        }
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+
             document.querySelector('form').onsubmit = () => {
                 const url = 'https://gist.githubusercontent.com/Goles/3196253/raw/9ca4e7e62ea5ad935bb3580dc0a07d9df033b451/CountryCodes.json';
 
@@ -50,16 +61,19 @@
                 .then(data => {
                     const code = document.querySelector('#code').value;
                     data.forEach(element => {
-                        if (code === element.dial_code) {
+                        let condition = code === element.dial_code;
+                        if (condition) {
                             const country = element.name;
                             document.querySelector('#result').innerHTML = `<p>${country}</p>`;
-                        } 
-                        // else {
-                        //     document.querySelector('#result').innerHTML = 'Please enter a proper code.';
-                        // }
+                        }
                     });
-                });
+                })
+                .catch(error => {
+                    document.querySelector('#result').innerHTML = `<p>Please enter a valid code.</p>`;
+                })
 
+
+                // Tried to add cases where user enter wrong code, still unresolved
                 return false;
             }
         });
