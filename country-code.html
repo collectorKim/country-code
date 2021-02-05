@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Country Code</title>
+    </head>
+    <style>
+        div {
+            text-align: center;
+            margin-top: 100px;
+            
+        }
+
+        h1 {
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: bold;
+            font-style: oblique;
+        }
+        form {
+            display: inline-block;
+            margin-top: 30px;
+        }
+
+        p {
+            font-size: 20px;
+        }
+    
+        #code {
+            padding: 3px;
+            margin-right: 10px;
+            border-radius: 10px;
+        }
+        #submit {
+            
+            background-color: blueviolet;
+            border-radius: 10%;
+            margin-top: 10px;
+            font-size: 10px;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('form').onsubmit = () => {
+                const url = 'https://gist.githubusercontent.com/Goles/3196253/raw/9ca4e7e62ea5ad935bb3580dc0a07d9df033b451/CountryCodes.json';
+
+                fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const code = document.querySelector('#code').value;
+                    data.forEach(element => {
+                        if (code === element.dial_code) {
+                            const country = element.name;
+                            document.querySelector('#result').innerHTML = `<p>${country}</p>`;
+                        } 
+                        // else {
+                        //     document.querySelector('#result').innerHTML = 'Please enter a proper code.';
+                        // }
+                    });
+                });
+
+                return false;
+            }
+        });
+    </script>
+    <body>
+        <div>
+            <h1>Country Code</h1>
+            <form>
+                <input type="text" id="code" placeholder="+1">
+                <input type="submit" value="Search" id="submit">
+                <div id="result"></div>
+            </form>
+        </div>
+    </body>
+</html>
